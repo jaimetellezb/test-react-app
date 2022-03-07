@@ -1,8 +1,13 @@
 import { types } from "../types";
 
+export enum TYPES {
+  LOGIN = "[auth] Login",
+  LOGOUT = "[auth] Logout",
+}
+
 type AuthAction =
-  | { type: "[auth] Login"; payload: AuthState }
-  | { type: "[auth] Logout"; payload: AuthState };
+  | { type: TYPES.LOGIN; payload: AuthState }
+  | { type: TYPES.LOGOUT; payload: AuthState };
 
 export interface AuthState {
   name: string;
@@ -13,15 +18,16 @@ export const authReducer = (
   state: AuthState,
   action: AuthAction
 ): AuthState => {
+  console.log("REDUCER", state);
   switch (action.type) {
     case types.login:
       return {
-        ...action.payload,
+        ...state,
         logged: true,
       };
     case types.logout:
       return {
-        name: "",
+        ...state,
         logged: false,
       };
     default:
